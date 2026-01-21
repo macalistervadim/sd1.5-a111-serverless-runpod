@@ -39,8 +39,17 @@ def run_inference(inference_request):
     """
     Run inference on a request.
     """
-    response = automatic_session.post(url=f'{LOCAL_URL}/txt2img',
-                                      json=inference_request, timeout=600)
+    if "init_images" in inference_request:
+        endpoint = "img2img"
+    else:
+        endpoint = "txt2img"
+
+    response = automatic_session.post(
+        url=f"{LOCAL_URL}/{endpoint}",
+        json=inference_request,
+        timeout=600
+    )
+    response.raise_for_status()
     return response.json()
 
 
