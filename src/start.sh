@@ -9,10 +9,11 @@ export PYTHONUNBUFFERED=true
 python /stable-diffusion-webui/webui.py \
   --xformers \
   --no-half-vae \
+  --no-half \
   --skip-python-version-check \
   --skip-torch-cuda-test \
   --skip-install \
-  --ckpt /model.safetensors \
+  --ckpt /cyberrealictic.safetensors \
   --opt-sdp-attention \
   --disable-safe-unpickle \
   --port 3000 \
