@@ -7,7 +7,20 @@ FROM alpine/git:2.43.0 as download
 #       of the wget command if you're using a model from CivitAI.
 RUN apk add --no-cache wget && \
     wget -q -O /model.safetensors \
-    https://huggingface.co/webui/stable-diffusion-inpainting/resolve/main/sd-v1-5-inpainting.safetensors
+    https://huggingface.co/webui/stable-diffusion-inpainting/resolve/main/sd-v1-5-inpainting.safetensors && \
+    wget -q -O /cyberrealictic.safetensors \
+    https://civitai.com/api/download/models/1478064?token=16f594f820ca3086e72e070165deebbd && \
+    wget -q -O /Rawfully_Stylish_v0-2.safetensors \
+    https://civitai.com/api/download/models/466475?token=16f594f820ca3086e72e070165deebbd && \
+    wget -q -O /igbaddie-PN.safetensors \
+    https://civitai.com/api/download/models/556208?token=16f594f820ca3086e72e070165deebbd && \
+    wget -q -O /AmateurStyle_v1_PONY_REALISM.safetensors \
+    https://civitai.com/api/download/models/534756?token=16f594f820ca3086e72e070165deebbd && \
+    wget -q -O /CyberRealistic_Negative_PONY-neg.safetensors \
+    https://civitai.com/api/download/models/1690589?token=16f594f820ca3086e72e070165deebbd && \
+    wget -q -O /sdxl_vae.safetensors \
+    https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors 
+
 
 # ---------------------------------------------------------------------------- #
 #                        Stage 2: Build the final image                        #
@@ -40,6 +53,12 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python -c "from launch import prepare_environment; prepare_environment()" --skip-torch-cuda-test
 
 COPY --from=download /model.safetensors /model.safetensors
+COPY --from=download /cyberrealictic.safetensors /cyberrealictic.safetensors
+COPY --from=download /Rawfully_Stylish_v0-2.safetensors /stable-diffusion-webui/models/Lora/Rawfully_Stylish_v0-2.safetensors
+COPY --from=download /igbaddie-PN.safetensors /stable-diffusion-webui/models/Lora/igbaddie-PN.safetensors
+COPY --from=download /AmateurStyle_v1_PONY_REALISM.safetensors /stable-diffusion-webui/models/Lora/AmateurStyle_v1_PONY_REALISM.safetensors
+COPY --from=download /CyberRealistic_Negative_PONY-neg.safetensors /stable-diffusion-webui/embeddings/CyberRealistic_Negative_PONY-neg.safetensors
+COPY --from=download /sdxl_vae.safetensors /stable-diffusion-webui/models/VAE/sdxl_vae.safetensors
 
 # install dependencies
 COPY requirements.txt .
