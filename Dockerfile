@@ -19,7 +19,9 @@ RUN apk add --no-cache wget && \
     wget -q -O /CyberRealistic_Negative_PONY-neg.safetensors \
     https://civitai.com/api/download/models/1690589?token=16f594f820ca3086e72e070165deebbd && \
     wget -q -O /sdxl_vae.safetensors \
-    https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors 
+    https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors && \
+    wget -q -O /ESRGAN_4x.pth \
+    https://github.com/cszn/KAIR/releases/download/v1.0/ESRGAN.pth 
 
 
 # ---------------------------------------------------------------------------- #
@@ -59,6 +61,7 @@ COPY --from=download /igbaddie-PN.safetensors /stable-diffusion-webui/models/Lor
 COPY --from=download /AmateurStyle_v1_PONY_REALISM.safetensors /stable-diffusion-webui/models/Lora/AmateurStyle_v1_PONY_REALISM.safetensors
 COPY --from=download /CyberRealistic_Negative_PONY-neg.safetensors /stable-diffusion-webui/embeddings/CyberRealistic_Negative_PONY-neg.safetensors
 COPY --from=download /sdxl_vae.safetensors /stable-diffusion-webui/models/VAE/sdxl_vae.safetensors
+COPY --from=download /ESRGAN_4x.pth /stable-diffusion-webui/models/ESRGAN/ESRGAN_4x.pth
 
 # install dependencies
 COPY requirements.txt .
